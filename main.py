@@ -1,6 +1,8 @@
 from selenium import webdriver as navegador
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select
+import  pandas as pd
+import  time as tiempo
 
 webSite = 'https://www.adamchoi.co.uk/teamgoals/detailed'
 
@@ -14,8 +16,18 @@ all_matches.click()
 selectCountry = Select(driver.find_element(By.ID,'country'))
 selectCountry.select_by_visible_text('Spain')
 
+tiempo.sleep(6)
+
 valores = driver.find_elements(By.TAG_NAME,'tr')
 
+partidos = []
+
 for valor in valores:
-    print(valor.text)
-#coemntario
+    partidos.append(valor.text)
+
+driver.quit()
+
+#Pandas
+df = pd.DataFrame({'Partidos':partidos})
+print(df)
+df.to_csv('Pandas.csv', index=False)
